@@ -31,4 +31,5 @@ Bash commands to create a React Native project, then running it :
 
 ### Notes:
 
-To open the developer mode in Expo Go, remember to ((shake)) the phone!
+* To open the developer mode in Expo Go, remember to ((shake)) the phone!
+* To set Bash as your default terminal in VSCode after installing git, hit Ctrl+Shift+P, Type "Terminal: Select Default Profile", then select "Git Bash"
