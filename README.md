@@ -29,6 +29,11 @@ Bash commands to create a React Native project, then running it :
 2. npx expo start
 3. Scan the QR code with the camera app to add it to Expo Go
 
+Extra Commands :
+
+To delete the default template project and start new without making a whole new folder, run:
+* npm run reset-project
+
 ### Notes:
 
 * To open the developer mode in Expo Go, remember to ((shake)) the phone!
