@@ -4,6 +4,12 @@
 A few different apps created with React Native. Based off the following tutorial from freeCodeCamp.org:
 https://www.youtube.com/watch?v=sm5Y7Vtuihg
 
+Expo React Native Documentation:
+https://docs.expo.dev/
+
+React Native Storage Options:
+https://docs.expo.dev/develop/user-interface/store-data/
+
 # Installations
 ### Software:
 
@@ -33,6 +39,9 @@ Extra Commands :
 
 To delete the default template project and start new without making a whole new folder, run:
 * npm run reset-project
+
+To clear the cache when starting the app
+* npx expo start -c
 
 ### Notes:
 
