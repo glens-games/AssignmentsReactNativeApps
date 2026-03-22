@@ -1,7 +1,7 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { View, Text, Pressable, TextInput  } from "react-native";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { Inter_500Medium, useFonts } from "@expo-google-fonts/inter";
@@ -18,18 +18,26 @@ export default function EditScreen() {
 
     const myTodo = todos.find(todo => todo.id === Number(id));
 
-    if (!myTodo) {
-        router.push("/");
+    const styles = useMemo(
+        () => createCommonStyles({ theme, colorScheme }),
+        [theme, colorScheme]
+    );
+    
+    const [draft, setDraft] = useState<TodoItem | null>(null);
+
+    useEffect(() => {
+        if (myTodo) {
+            setDraft(myTodo);
+        }
+    }, [myTodo]);
+
+    if (!myTodo || !draft) {
         return null;
     }
-
-    const [draft, setDraft] = useState<TodoItem>(myTodo);
 
     if (!loaded && !error) {
         return null;
     }
-
-    const styles = createCommonStyles({theme, colorScheme});
 
     const handleSave = async () => {
         try {

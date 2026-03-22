@@ -1,6 +1,6 @@
 import { Text, View, TextInput, Pressable, StyleSheet, FlatList, ListRenderItem } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useAppStorage } from "@/store/appStorage.tsx";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Octicons from '@expo/vector-icons/Octicons';
@@ -19,12 +19,15 @@ export default function Index() {
 
   const { theme, todos, setTodos, colorScheme, setColorScheme } = useAppStorage();
 
+  const styles = useMemo(
+    () => createCommonStyles({ theme, colorScheme }),
+    [theme, colorScheme]
+  );
+
   if (!loaded && !error) {
      return null;
   }
   
-  const styles = createCommonStyles({theme, colorScheme});
-
   const addTodo = () => {
     if (text.trim() === "") return;
 
@@ -40,7 +43,7 @@ export default function Index() {
   }
 
   const handlePress = (id: number) => {
-    router.push({ pathname: "/todos/[id]", params: { id: id.toString() } });
+    router.replace({ pathname: "/todos/[id]", params: { id: id.toString() } });
   }
 
   const removeTodo = (id: number) => {
