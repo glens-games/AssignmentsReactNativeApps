@@ -69,4 +69,4 @@ To run the development app, run the server (might need `npx expo start --tunnel`
 ### Building for iOS devices
 
 * building the project for simulator: `eas build --profile ios-simulator --platform ios`
-* building the project for devices: `eas build --profile ios-development --platform ios`
+* building the project for devices: `eas build --profile development --platform ios`
