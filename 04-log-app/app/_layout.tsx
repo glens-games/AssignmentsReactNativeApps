@@ -1,5 +1,10 @@
 import { Stack } from "expo-router";
+import { LocalStorageProvider } from "../data/localStorage";
 
 export default function RootLayout() {
-  return <Stack />;
+  return (
+    <LocalStorageProvider>
+      <Stack />
+    </LocalStorageProvider>
+  );
 }
