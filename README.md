@@ -31,19 +31,42 @@ https://docs.expo.dev/develop/user-interface/store-data/
 
 Bash commands to create a React Native project, then running it :
 
-1. npx create-expo-app@latest --template default@sdk-55
-2. npx expo start
+1. `npx create-expo-app@latest --template default@sdk-55`
+2. `npx expo start`
 3. Scan the QR code with the camera app to add it to Expo Go
 
 Extra Commands :
 
 To delete the default template project and start new without making a whole new folder, run:
-* npm run reset-project
+`npm run reset-project`
 
 To clear the cache when starting the app
-* npx expo start -c
+`npx expo start -c`
 
 ### Notes:
 
 * To open the developer mode in Expo Go, remember to ((shake)) the phone!
-* To set Bash as your default terminal in VSCode after installing git, hit Ctrl+Shift+P, Type "Terminal: Select Default Profile", then select "Git Bash"
+* To set Bash as your default terminal in VSCode after installing git, hit Ctrl+Shift+P, Type `Terminal: Select Default Profile`, then select `Git Bash`
+
+# Expo Application Services (EAS)
+
+Make sure you have an account at https://expo.dev/ in order to build development & production apps
+
+* if it's not installed yet: `npm i -g eas-cli`
+* reliable browser login method: `eas login -b`
+* Start in your project directory: `eas init`
+* Configuring the project: `eas build:configure`
+
+Expo EAS Documentation: https://docs.expo.dev/tutorial/eas/introduction/
+
+### Building for android devices
+
+* building the project: `eas build --profile development --platform android`
+
+Once the project is built, download & install the app on android devices using the link provided by expo.dev
+To run the development app, run the server (might need `npx expo start --tunnel`), 
+
+### Building for iOS devices
+
+* building the project for simulator: `eas build --profile ios-simulator --platform ios`
+* building the project for devices: `eas build --profile ios-development --platform ios`
