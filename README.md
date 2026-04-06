@@ -61,12 +61,14 @@ Expo EAS Documentation: https://docs.expo.dev/tutorial/eas/introduction/
 
 ### Building for android devices
 
-* building the project: `eas build --profile development --platform android`
+Note: When running a build for the 1st time, you may be prompted for your Android Application ID. This is simply `com.companyname.productname`
+
+* developer build that requires an active server:
+`eas build --profile development --platform android`
+* developer build that can run without a server:
+`eas build --profile preview --platform android`
+* production build ready for the app store:
+`eas build --profile production --platform android`
 
 Once the project is built, download & install the app on android devices using the link provided by expo.dev
 To run the development app, run the server (might need `npx expo start --tunnel`), 
-
-### Building for iOS devices
-
-* building the project for simulator: `eas build --profile ios-simulator --platform ios`
-* building the project for devices: `eas build --profile development --platform ios`
