@@ -3,6 +3,7 @@ import {Alert} from 'react-native';
 
 // Types
 export type Options = {
+  darkMode: boolean;
   enableGPS?: boolean;
   // add more customization options later
 };
@@ -48,7 +49,7 @@ const defaultTypes: LogTypeDef[] = [
 ];
 
 const defaultData: AppData = {
-  options: {enableGPS: false},
+  options: {enableGPS: false, darkMode: false},
   sessions: [],
   types: defaultTypes,
 };

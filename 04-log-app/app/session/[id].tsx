@@ -1,8 +1,9 @@
-import {FlatList, Pressable, SafeAreaView, Text, View, StyleSheet, GestureResponderEvent} from 'react-native';
-import {useLocalSearchParams, useRouter} from 'expo-router';
-import {useLocalStorage} from '../../data/localStorage';
-import {useState, useMemo} from 'react';
-import {Ionicons} from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useMemo, useState } from 'react';
+import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useLocalStorage } from '@/data/localStorage';
 
 const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: '#fff'},
@@ -85,13 +86,6 @@ export default function SessionScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.headerRow}>
-        <Pressable style={styles.backBtn} onPress={() => router.back()}>
-          <Ionicons name="chevron-back" size={24} color="#007AFF" />
-        </Pressable>
-        <Text style={styles.headerTitle}>{session.title}</Text>
-      </View>
-
       <FlatList
         data={logItems}
         keyExtractor={item => item.id}

@@ -3,20 +3,11 @@ import { theme } from "@/styles/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React from "react";
-import { Pressable, Text, View, StyleSheet } from "react-native";
+import { Pressable, View, StyleSheet } from "react-native";
 
-export function IndexHeader() {
+export function SessionHeader() {
     const router = useRouter();
     const styles = createCommonStyles({ colorScheme: 'light' });
-
-    const handleHelp = () => {
-        console.log("Open help");
-    };
-
-    const handleSettings = () => {
-        console.log("Open settings");
-        router.push({pathname: '/settings', params: {}});
-    };
 
     return (
       <View style={myStyles.header}>
@@ -24,12 +15,7 @@ export function IndexHeader() {
           <Pressable onPress={() => {}}
             style={({ pressed }) => [styles.helpButton, pressed && styles.helpButtonPressed]}
           >
-            <Ionicons name="help-circle-outline" size={20} color="#FFFFFF" />
-          </Pressable>
-          <Pressable onPress={() => router.push('/settings')}
-            style={({ pressed }) => [styles.settingsButton, pressed && styles.settingsButtonPressed]}
-          >
-            <Ionicons name="settings-outline" size={20} color="#4B5563" />
+            <Ionicons name="pencil-outline" size={20} color="#FFFFFF" />
           </Pressable>
 
         </View>
