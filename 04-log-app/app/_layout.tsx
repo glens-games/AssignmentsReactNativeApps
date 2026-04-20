@@ -1,9 +1,9 @@
-import { Stack } from "expo-router";
-import { LocalStorageProvider } from "../data/localStorage";
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { IndexHeader } from '@/components/index-header';
 import { SessionHeader } from "@/components/session-header";
+import { Stack } from "expo-router";
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { LocalStorageProvider } from "../data/localStorage";
 
 export default function RootLayout() {
   const sessionName = "Session XYZ";
@@ -16,7 +16,7 @@ export default function RootLayout() {
             <Stack.Screen name="index" options={{
               title: "Index",
               headerTitle: "Timer Tracker",
-              headerRight: IndexHeader,
+              headerRight: () => <IndexHeader />,
             }}/>
             <Stack.Screen name="settings" options={{
               title: "Settings",
@@ -24,7 +24,7 @@ export default function RootLayout() {
             }}/>
             <Stack.Screen name="session/[id]" options={{
               title: sessionName,
-              headerRight: SessionHeader,
+              headerRight: () => <SessionHeader />,
             }}/>
           </Stack>
         </SafeAreaProvider>

@@ -1,22 +1,25 @@
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
   ScrollView,
+  StyleSheet,
   Switch,
+  Text,
+  View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { theme } from '@/styles/theme';
 import { useLocalStorage } from '@/data/localStorage';
+import { Theme, useAppTheme } from '@/styles/theme';
 
 export default function SettingsScreen() {
     const router = useRouter();
 
     const { data, setOptions } = useLocalStorage();
+    const { theme } = useAppTheme(data);
+    // const common = createCommonStyles(theme);
+    const styles = createStyles(theme);
+
     const isDarkMode = data.options.darkMode;
 
     const [undoWithShake, setUndoWithShake] = useState(false);
@@ -26,7 +29,7 @@ export default function SettingsScreen() {
       
       <ScrollView contentContainerStyle={styles.content}>
 
-        <Section title="Appearance">
+        <Section title="Appearance" styles={styles}>
           <SettingsRow
             label="Dark Mode"
             description="Switch to a darker color scheme that's easier on your eyes in low light."
@@ -37,10 +40,11 @@ export default function SettingsScreen() {
                 />
             }
             showSeparator={false}
+            styles={styles}
           />
         </Section>
 
-        <Section title="General">
+        <Section title="General" styles={styles}>
           <SettingsRow
             label="Undo with Shake"
             description="Shake your device to undo recent actions and edits."
@@ -51,30 +55,35 @@ export default function SettingsScreen() {
               />
             }
             showSeparator={false}
+            styles={styles}
           />
         </Section>
 
-        <Section title="About">
+        <Section title="About" styles={styles}>
           <SettingsRow
             label="Version"
             right={<Text style={styles.muted}>1.0.0</Text>}
+            styles={styles}
           />
           <SettingsRow
             label="Terms of Service"
             right={<Text style={styles.muted}>›</Text>}
             showSeparator={false}
+            styles={styles}
           />
         </Section>
 
-        <Section title="The Developer">
+        <Section title="The Developer" styles={styles}>
           <SettingsRow
             label="Check out my site!"
             right={<Text style={styles.muted}>›</Text>}
+            styles={styles}
           />
           <SettingsRow
             label="Show me your support!"
             right={<Text style={styles.muted}>›</Text>}
             showSeparator={false}
+            styles={styles}
           />
         </Section>
 
@@ -86,9 +95,11 @@ export default function SettingsScreen() {
 function Section({
   title,
   children,
+  styles,
 }: {
   title: string;
   children: React.ReactNode;
+  styles: any;
 }) {
   return (
     <View style={styles.section}>
@@ -103,11 +114,13 @@ function SettingsRow({
   description,
   right,
   showSeparator = true,
+  styles,
 }: {
   label: string;
   description?: string;
   right?: React.ReactNode;
   showSeparator?: boolean;
+  styles: any;
 }) {
   return (
     <View style={styles.row}>
@@ -127,85 +140,87 @@ function SettingsRow({
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: theme.colors.background,
-  },
+function createStyles(theme: Theme) {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.colors.background,
+    },
 
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 16,
-    gap: 12,
-    borderBottomWidth: 1,
-    borderColor: theme.colors.border,
-  },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      padding: 16,
+      gap: 12,
+      borderBottomWidth: 1,
+      borderColor: theme.colors.border,
+    },
 
-  backButton: {
-    fontSize: 20,
-    color: theme.colors.primary,
-  },
+    backButton: {
+      fontSize: 20,
+      color: theme.colors.primary,
+    },
 
-  title: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: theme.colors.text,
-  },
+    title: {
+      fontSize: 18,
+      fontWeight: '600',
+      color: theme.colors.text,
+    },
 
-  content: {
-    padding: 16,
-    gap: 20,
-  },
+    content: {
+      padding: 16,
+      gap: 20,
+    },
 
-  section: {
-    gap: 8,
-  },
+    section: {
+      gap: 8,
+    },
 
-  sectionTitle: {
-    fontSize: 12,
-    textTransform: 'uppercase',
-    letterSpacing: 1,
-    color: theme.colors.muted,
-  },
+    sectionTitle: {
+      fontSize: 12,
+      textTransform: 'uppercase',
+      letterSpacing: 1,
+      color: theme.colors.muted,
+    },
 
-  sectionCard: {
-    backgroundColor: theme.colors.card,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: theme.colors.border,
-    overflow: 'hidden',
-  },
+    sectionCard: {
+      backgroundColor: theme.colors.card,
+      borderRadius: 12,
+      borderWidth: 1,
+      borderColor: theme.colors.border,
+      overflow: 'hidden',
+    },
 
-  row: {
-    padding: 14,
-  },
+    row: {
+      padding: 14,
+    },
 
-  rowTop: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
+    rowTop: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
 
-  rowLabel: {
-    fontSize: 15,
-    fontWeight: '500',
-    color: theme.colors.text,
-  },
+    rowLabel: {
+      fontSize: 15,
+      fontWeight: '500',
+      color: theme.colors.text,
+    },
 
-  rowDescription: {
-    marginTop: 4,
-    fontSize: 13,
-    color: theme.colors.muted,
-  },
+    rowDescription: {
+      marginTop: 4,
+      fontSize: 13,
+      color: theme.colors.muted,
+    },
 
-  separator: {
-    marginTop: 12,
-    height: 1,
-    backgroundColor: theme.colors.border,
-  },
+    separator: {
+      marginTop: 12,
+      height: 1,
+      backgroundColor: theme.colors.border,
+    },
 
-  muted: {
-    color: theme.colors.muted,
-  },
-});
+    muted: {
+      color: theme.colors.muted,
+    },
+  });
+}

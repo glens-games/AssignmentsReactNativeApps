@@ -1,11 +1,11 @@
 import { StyleSheet } from "react-native";
-import { theme } from "./theme";
+import { Theme } from "./theme";
 
-export function createCommonStyles({colorScheme} : {colorScheme: "light" | "dark"}) {
+export function createCommonStyles(theme: Theme) {
     return StyleSheet.create({
         container: {
             flex: 1,        
-            backgroundColor: '#fff'
+            backgroundColor: theme.colors.background,
         },
         headerRow: {
             flexDirection: 'row',
@@ -21,7 +21,7 @@ export function createCommonStyles({colorScheme} : {colorScheme: "light" | "dark
         newSessionBtn: {
             paddingHorizontal: 12,
             paddingVertical: 8,
-            backgroundColor: '#007AFF',
+            backgroundColor: theme.colors.primary,
             borderRadius: 6
         },
         newSessionBtnText: {
@@ -74,48 +74,6 @@ export function createCommonStyles({colorScheme} : {colorScheme: "light" | "dark
             marginLeft: 8,
         },
 
-        tabBtn: {
-            flex: 1, // each = 50% of remaining space
-            flexDirection: "row",
-            paddingVertical: 6,
-            paddingHorizontal: 12,
-            backgroundColor: "#ffffff",
-            alignItems: "center",
-            justifyContent: "center",
-            borderWidth: 1,
-            borderColor: "#D1D5DB",
-        },
-
-        tabBtnLeft: {
-            borderTopLeftRadius: 8,
-            borderBottomLeftRadius: 8,
-            borderRightWidth: 0, // removes double border between buttons
-        },
-
-        tabBtnRight: {
-            borderTopRightRadius: 8,
-            borderBottomRightRadius: 8,
-        },
-
-        tabBtnActive: {
-            backgroundColor: "#dbeafe",
-        },
-
-        tabBtnText: {
-            color: "#111827",
-        },
-
-        toggleButton: {
-            paddingVertical: 6,
-            paddingHorizontal: 12,
-            borderRadius: 8,
-            backgroundColor: theme.colors.card,
-        },
-
-        toggleButtonActive: {
-            backgroundColor: theme.colors.primary,
-        },
-
         toggleText: {
             color: theme.colors.muted,
         },
@@ -125,7 +83,6 @@ export function createCommonStyles({colorScheme} : {colorScheme: "light" | "dark
             fontWeight: '600',
         },
 
-        // --- Help button ---
         helpButton: {
             marginLeft: 8,
             backgroundColor: "#3B82F6",

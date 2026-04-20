@@ -63,6 +63,7 @@ type LocalStorageContextType = {
   data: AppData;
   setOptions: (opts: Partial<Options>) => void;
   createSession: (title?: string) => LogSession;
+  setSessionName: (sessionId: string, title: string) => void;
   addItemToSession: (sessionId: string, typeId: string, gps?: {lat: number; lon: number} | null) => LogItem | null;
   deleteItem: (sessionId: string, itemId: string) => void;
   deleteSession: (sessionId: string) => void;
@@ -92,6 +93,13 @@ export const LocalStorageProvider: React.FC<{children: React.ReactNode}> = ({chi
     };
     setData(d => ({...d, sessions: [session, ...d.sessions]}));
     return session;
+  };
+
+  const setSessionName = (sessionId: string, title: string) => {
+    setData(d => ({
+      ...d,
+      sessions: d.sessions.map(s => (s.id === sessionId ? {...s, title} : s))
+    }));
   };
 
   const addItemToSession = (sessionId: string, typeId: string, gps?: {lat: number; lon: number} | null) => {
@@ -126,7 +134,7 @@ export const LocalStorageProvider: React.FC<{children: React.ReactNode}> = ({chi
   const getTypeById = (id: string) => data.types.find(t => t.id === id);
 
   const value = useMemo(
-    () => ({data, setOptions, createSession, addItemToSession, deleteItem, deleteSession, getTypeById}),
+    () => ({data, setOptions, createSession, setSessionName, addItemToSession, deleteItem, deleteSession, getTypeById}),
     [data]
   );
 

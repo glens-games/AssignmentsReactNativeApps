@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalStorage } from '@/data/localStorage';
+import { RenameModal } from '@/components/rename-modal';
 
 const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: '#fff'},
@@ -33,15 +34,50 @@ const styles = StyleSheet.create({
   logItemContent: {flex: 1},
   logItemDeleteBtn: {paddingHorizontal: 8},
   emptyText: {textAlign: 'center', color: '#999', marginTop: 32, fontSize: 14},
-  buttonBar: {borderTopWidth: 1, borderTopColor: '#ddd', paddingVertical: 12, paddingHorizontal: 16},
-  logButton: {width: '100%', paddingVertical: 16, borderRadius: 8, backgroundColor: '#007AFF', justifyContent: 'center', alignItems: 'center'},
+  buttonBar: {
+    borderTopWidth: 1,
+    borderTopColor: '#ddd',
+    paddingTop: 12,
+    paddingHorizontal: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+  },
+  logButton: {
+    flex: 1,
+    flexDirection: "row",
+    gap: 8,
+    height: 48,
+    paddingVertical: 16,
+    borderRadius: 10,
+    backgroundColor: '#007AFF',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  logButtonPressed: {
+    backgroundColor: '#005BBB',
+  },
   logButtonText: {color: '#fff', fontWeight: '700', fontSize: 16},
+  iconButton: {
+    height: 40,
+    width: 40,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#D1D5DB",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  emptyContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
 });
 
 export default function SessionScreen() {
   const {id} = useLocalSearchParams();
   const router = useRouter();
-  const {data, addItemToSession, deleteItem, getTypeById} = useLocalStorage();
+  const {data, setSessionName, addItemToSession, deleteItem, getTypeById} = useLocalStorage();
 
   const session = useMemo(() => data.sessions.find(s => s.id === id), [data.sessions, id]);
   const [currentTypeId, setCurrentTypeId] = useState<string>('log');
@@ -57,6 +93,14 @@ export default function SessionScreen() {
         </View>
       </SafeAreaView>
     );
+  }
+
+  const [showRenameModal, setShowRenameModal] = useState(false);
+
+  const handlePrevType = () => {
+  }
+
+  const handleNextType = () => {
   }
 
   const handleLog = () => {
@@ -106,16 +150,49 @@ export default function SessionScreen() {
             </View>
           );
         }}
-        ListEmptyComponent={<Text style={styles.emptyText}>No log items yet</Text>}
+        ListEmptyComponent={
+          <View style={styles.emptyContainer}>
+            <Ionicons name="time-outline" size={44} />
+            <Text style={styles.emptyText}>
+              No log items yet.{"\n"}
+              Tap the button below to record a timestamp.
+            </Text>
+          </View>
+        }
         contentContainerStyle={logItems.length === 0 ? {flexGrow: 1, justifyContent: 'center'} : {}}
         style={styles.logItemsContainer}
       />
 
-      <View style={styles.buttonBar}>
-        <Pressable style={styles.logButton} onPress={handleLog}>
-          <Text style={styles.logButtonText}>{currentType?.name || 'LOG'}</Text>
+      <View style={styles.buttonBar}>        
+        {/* Previous type */}
+        <Pressable onPress={handlePrevType} style={styles.iconButton}>
+          <Ionicons name="chevron-back" size={20} color="#374151" />
+        </Pressable>
+
+        {/* LOG button */}
+        <Pressable
+          onPress={handleLog}
+          style={({ pressed }) => [styles.logButton, pressed && styles.logButtonPressed]}
+        >
+          <Ionicons name="add" size={20} color="#FFFFFF" />
+          <Text
+            style={styles.logButtonText}
+            numberOfLines={1}
+          >
+            {currentType?.name || 'LOG'}
+          </Text>
+        </Pressable>
+
+        {/* Next type */}
+        <Pressable onPress={handleNextType} style={styles.iconButton}>
+          <Ionicons name="chevron-forward" size={20} color="#374151" />
         </Pressable>
       </View>
+      <RenameModal
+        visible={showRenameModal}
+        setVisible={() => setShowRenameModal(false)}
+        renameText={session.title}
+        setRenameText={(text) => setSessionName(session.id, text)} />
     </SafeAreaView>
   );
 }

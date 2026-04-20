@@ -1,9 +1,8 @@
 
-import { createCommonStyles } from "@/styles/common";
-import { theme } from "@/styles/theme";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { useLocalStorage } from "@/data/localStorage";
+import { useAppTheme } from "@/styles/theme";
 import React from "react";
-import { Modal, Pressable, Text, View, StyleSheet } from "react-native";
+import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import { Calendar } from 'react-native-calendars';
 
 export function CalendarModal({visible, onClose, onDateSelect}:
@@ -11,7 +10,9 @@ export function CalendarModal({visible, onClose, onDateSelect}:
                              onClose: () => void;
                              onDateSelect: (day: any) => void})
 {
-    const styles = createCommonStyles({ colorScheme: 'light' });
+    const {data} = useLocalStorage();
+    const {theme} = useAppTheme(data);
+    
     const styles2 = StyleSheet.create({
         modalOverlay: {
             flex: 1,

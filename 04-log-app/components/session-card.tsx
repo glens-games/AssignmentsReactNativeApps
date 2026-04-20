@@ -1,8 +1,8 @@
-import { Pressable, Text, View, StyleSheet } from "react-native";
-import Ionicons from "@expo/vector-icons/build/Ionicons";
+import { LogSession, useLocalStorage } from "@/data/localStorage";
 import { createCommonStyles } from "@/styles/common";
-import { LogSession } from "@/data/localStorage";
-import { theme } from "@/styles/theme";
+import { Theme, useAppTheme } from "@/styles/theme";
+import Ionicons from "@expo/vector-icons/build/Ionicons";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable';
 
 export function SessionCard({session, onPress, onDelete}:
@@ -10,24 +10,27 @@ export function SessionCard({session, onPress, onDelete}:
                             onPress: () => void;
                             onDelete: () => void})
 {
-    const styles = createCommonStyles({ colorScheme: 'light' });
+    const {data} = useLocalStorage();
+    const {theme} = useAppTheme(data);
+    const common = createCommonStyles(theme);
+    const styles = createStyles(theme);
 
     const renderRightActions = () => {
         return (
-            <Pressable style={myStyles.deleteButton} onPress={onDelete}>
-                <Text style={myStyles.deleteText}>Delete</Text>
+            <Pressable style={styles.deleteButton} onPress={onDelete}>
+                <Text style={styles.deleteText}>Delete</Text>
             </Pressable>
         );
     };
 
     return (
         <Swipeable renderRightActions={renderRightActions} overshootRight={false}>
-            <View style={myStyles.swipeContainer}>
-                <Pressable style={styles.sessionRow} onPress={() => onPress()}>
-                    <Text style={styles.sessionTitle}>{session.title}</Text>
+            <View style={styles.swipeContainer}>
+                <Pressable style={common.sessionRow} onPress={() => onPress()}>
+                    <Text style={common.sessionTitle}>{session.title}</Text>
                     <View style={{flexDirection: 'row', alignItems: 'center', gap: 4}}>
                         <Ionicons name="time-outline" size={14} color="#4B5563" />
-                        <Text style={styles.sessionItemCount}>{session.items.length} log items</Text>
+                        <Text style={common.sessionItemCount}>{session.items.length} log items</Text>
                     </View>
                 </Pressable>
             </View>
@@ -35,26 +38,28 @@ export function SessionCard({session, onPress, onDelete}:
     );
 }
 
-const myStyles = StyleSheet.create({
-  swipeContainer: {
-    backgroundColor: '#fff', // ← solid background (or theme.colors.cardAlt)
-    marginHorizontal: 16,
-    marginBottom: 10,
-    borderRadius: 10,
-    overflow: 'hidden', // ← ensures clean clipping
-  },
+function createStyles(theme: Theme) {
+  return StyleSheet.create({
+    swipeContainer: {
+        backgroundColor: '#fff', // ← solid background (or theme.colors.cardAlt)
+        marginHorizontal: 16,
+        marginBottom: 10,
+        borderRadius: 10,
+        overflow: 'hidden', // ← ensures clean clipping
+    },
 
-  deleteButton: {
-    backgroundColor: theme.colors.danger,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 80,
-    marginBottom: 10,
-    borderRadius: 10,
-  },
+    deleteButton: {
+        backgroundColor: theme.colors.danger,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 80,
+        marginBottom: 10,
+        borderRadius: 10,
+    },
 
-  deleteText: {
-    color: '#fff',
-    fontWeight: '600',
-  },
-});
+    deleteText: {
+        color: '#fff',
+        fontWeight: '600',
+    },
+  });
+}

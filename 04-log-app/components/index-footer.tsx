@@ -1,15 +1,16 @@
-import { createCommonStyles } from "@/styles/common";
-import { theme } from "@/styles/theme";
+import { useLocalStorage } from "@/data/localStorage";
+import { useAppTheme } from "@/styles/theme";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
-import { Pressable, TextInput, Text, View, StyleSheet } from "react-native";
+import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
 export function IndexFooter({searchQuery, setSearchQuery, onCalendarPress, onNewSession}:
                             {searchQuery: string;
                              setSearchQuery: (value: string) => void;
                              onCalendarPress: () => void;
                              onNewSession: () => void}) {
-    const styles = createCommonStyles({ colorScheme: 'light' });
+    const {data} = useLocalStorage();
+    const {theme} = useAppTheme(data);
 
     const styles2 = StyleSheet.create({
     container: {
@@ -47,6 +48,7 @@ export function IndexFooter({searchQuery, setSearchQuery, onCalendarPress, onNew
 
     footer: {
         padding: 12,
+        paddingBottom: 0,
         gap: 10,
         borderTopWidth: 1,
         borderColor: theme.colors.border,
@@ -105,7 +107,7 @@ export function IndexFooter({searchQuery, setSearchQuery, onCalendarPress, onNew
     return (
       <View style={styles2.footer}>
         
-        {/* Search + Calendar Row */}
+        {/* Search + Calendar */}
         <View style={styles2.searchRow}>
           <TextInput
             placeholder="Search or filter by date..."
@@ -125,39 +127,5 @@ export function IndexFooter({searchQuery, setSearchQuery, onCalendarPress, onNew
           <Text style={styles2.newButtonText}>New Session</Text>
         </Pressable>
       </View>
-
-        // <View style={styles.container}>
-        //     <View style={styles2.row}>
-                
-        //         {/* Search input */}
-        //         <View style={styles2.searchWrapper}>
-        //         <Ionicons
-        //             name="search-outline"
-        //             size={16}
-        //             color="#9CA3AF"
-        //             style={styles2.searchIcon}
-        //         />
-        //         <TextInput
-        //             placeholder="Search items..."
-        //             value={searchQuery}
-        //             onChangeText={setSearchQuery}
-        //             style={styles2.input}
-        //             placeholderTextColor="#9CA3AF"
-        //         />
-        //         </View>
-
-        //         {/* New Session button */}
-        //         <Pressable
-        //             onPress={onNewSession}
-        //             style={({ pressed }) => [
-        //                 styles2.fab,
-        //                 pressed && styles2.fabPressed
-        //             ]}
-        //         >
-        //             <Ionicons name="add" size={24} color="#FFFFFF" />
-        //         </Pressable>
-
-        //     </View>
-        // </View>
    );
 }
